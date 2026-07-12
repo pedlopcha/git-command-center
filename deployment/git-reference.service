@@ -1,0 +1,16 @@
+[Unit]
+Description=Git Command Center - local git reference site
+After=network.target
+
+[Service]
+Type=simple
+# Update these two lines to match your Pi:
+User=pi
+WorkingDirectory=/home/pi/git-command-center
+ExecStart=/usr/bin/node server.js
+Restart=on-failure
+RestartSec=5
+Environment=PORT=8080
+
+[Install]
+WantedBy=multi-user.target

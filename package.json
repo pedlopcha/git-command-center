@@ -1,0 +1,17 @@
+{
+  "name": "git-command-center",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A local git command reference for learning product owners.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "validate": "node scripts/validate-data.js"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git Command Center</title>
+  <meta name="description" content="A local, searchable reference for the git commands you actually use.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B0E14'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%234FA968'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+
+    <button class="mobile-nav-toggle" id="mobile-nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
+      <span class="mobile-nav-toggle__bars" aria-hidden="true"></span>
+      <span>Menu</span>
+    </button>
+
+    <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__inner">
+        <div class="brand">
+          <span class="brand__dot" aria-hidden="true"></span>
+          <div class="brand__text">
+            <p class="brand__title">Command Center</p>
+            <p class="brand__subtitle" id="stats-line">git reference</p>
+          </div>
+        </div>
+
+        <div class="search-box">
+          <svg class="search-box__icon" viewBox="0 0 20 20" aria-hidden="true">
+            <circle cx="9" cy="9" r="6.25" class="search-box__icon-path"/>
+            <line x1="13.6" y1="13.6" x2="18" y2="18" class="search-box__icon-path"/>
+          </svg>
+          <label class="visually-hidden" for="search-input">Search git commands</label>
+          <input type="search" id="search-input" class="search-box__input" placeholder="Search commands" autocomplete="off" spellcheck="false">
+          <kbd class="search-box__hint" aria-hidden="true">/</kbd>
+        </div>
+        <p class="search-box__count" id="search-count" aria-live="polite"></p>
+
+        <nav class="graph-nav" id="category-nav" aria-label="Categories">
+          <span class="graph-nav__spine" aria-hidden="true"></span>
+        </nav>
+
+        <div class="sidebar__footer">
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
+            <span class="theme-toggle__icon" aria-hidden="true"></span>
+            <span id="theme-toggle-label">Dark mode</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main" id="main-content">
+
+      <header class="intro">
+        <p class="intro__eyebrow">Local git reference</p>
+        <h1 class="intro__title">Every git command you'll actually reach for.</h1>
+        <p class="intro__lead">
+          What each command does, when you'd reach for it, and the exact line to run.
+          Search for a task, copy the command, get back to work.
+        </p>
+      </header>
+
+      <section class="section" id="overview">
+        <h2 class="section__heading">How the pieces fit together</h2>
+        <p class="section__description">
+          Almost everything in git moves a change through four stages. Learn this shape once, and
+          most commands below are just &ldquo;move something from one box to the next.&rdquo;
+        </p>
+
+        <div class="diagram-wrapper diagram-wrapper--overview">
+          <svg class="diagram diagram--overview" viewBox="0 0 960 300" role="img" aria-labelledby="overview-diagram-title">
+            <title id="overview-diagram-title">Working directory to staging area to local repository to remote repository, with pull bringing changes back</title>
+            <defs>
+              <marker id="arrow-overview" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="diagram__arrowhead"/>
+              </marker>
+              <marker id="arrow-overview-return" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="diagram__arrowhead diagram__arrowhead--accent"/>
+              </marker>
+            </defs>
+
+            <line x1="200" y1="145" x2="267" y2="145" class="diagram__line" marker-end="url(#arrow-overview)"/>
+            <text x="233" y="128" class="diagram__arrow-label diagram__tag--center">git add</text>
+
+            <line x1="447" y1="145" x2="514" y2="145" class="diagram__line" marker-end="url(#arrow-overview)"/>
+            <text x="480" y="128" class="diagram__arrow-label diagram__tag--center">git commit</text>
+
+            <line x1="694" y1="145" x2="760" y2="145" class="diagram__line" marker-end="url(#arrow-overview)"/>
+            <text x="727" y="128" class="diagram__arrow-label diagram__tag--center">git push</text>
+
+            <path d="M850,190 C850,252 110,252 110,190" class="diagram__line diagram__line--return" fill="none" marker-end="url(#arrow-overview-return)"/>
+            <text x="480" y="273" class="diagram__arrow-label diagram__arrow-label--return diagram__tag--center">git pull &#160;(fetch + merge)</text>
+
+            <g class="diagram__node">
+              <rect x="20" y="100" width="180" height="90" rx="10"/>
+              <text x="110" y="138" class="diagram__node-label diagram__tag--center"><tspan x="110" dy="0">Working</tspan><tspan x="110" dy="20">Directory</tspan></text>
+            </g>
+            <g class="diagram__node">
+              <rect x="267" y="100" width="180" height="90" rx="10"/>
+              <text x="357" y="138" class="diagram__node-label diagram__tag--center"><tspan x="357" dy="0">Staging</tspan><tspan x="357" dy="20">Area</tspan></text>
+            </g>
+            <g class="diagram__node">
+              <rect x="514" y="100" width="180" height="90" rx="10"/>
+              <text x="604" y="138" class="diagram__node-label diagram__tag--center"><tspan x="604" dy="0">Local</tspan><tspan x="604" dy="20">Repository</tspan></text>
+            </g>
+            <g class="diagram__node">
+              <rect x="760" y="100" width="180" height="90" rx="10"/>
+              <text x="850" y="138" class="diagram__node-label diagram__tag--center"><tspan x="850" dy="0">Remote</tspan><tspan x="850" dy="20">Repository</tspan></text>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <div class="category-section" id="getting-started" data-category="getting-started">
+        <div class="category-heading" data-heading-for="getting-started"></div>
+        <div class="cards-grid" data-cards-for="getting-started"></div>
+      </div>
+
+      <div class="category-section" id="daily-workflow" data-category="daily-workflow">
+        <div class="category-heading" data-heading-for="daily-workflow"></div>
+        <div class="cards-grid" data-cards-for="daily-workflow"></div>
+      </div>
+
+      <div class="category-section" id="branching" data-category="branching">
+        <div class="category-heading" data-heading-for="branching"></div>
+
+        <div class="diagram-wrapper diagram-wrapper--branching">
+          <svg class="diagram diagram--branching" viewBox="0 0 900 260" role="img" aria-labelledby="branching-diagram-title">
+            <title id="branching-diagram-title">A feature branch diverging from main and continuing on its own</title>
+            <defs>
+              <marker id="arrow-branch-main" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="diagram__arrowhead"/>
+              </marker>
+              <marker id="arrow-branch-feature" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="diagram__arrowhead diagram__arrowhead--accent"/>
+              </marker>
+            </defs>
+
+            <line x1="60" y1="190" x2="812" y2="190" class="diagram__line" marker-end="url(#arrow-branch-main)"/>
+            <path d="M300,190 C300,120 340,80 412,80" class="diagram__line diagram__line--accent" fill="none"/>
+            <line x1="412" y1="80" x2="652" y2="80" class="diagram__line diagram__line--accent" marker-end="url(#arrow-branch-feature)"/>
+
+            <text x="70" y="222" class="diagram__tag">main</text>
+            <text x="412" y="58" class="diagram__tag diagram__tag--accent">feature/my-branch</text>
+            <text x="300" y="232" class="diagram__caption diagram__tag--center">git switch -c feature/my-branch</text>
+
+            <circle cx="110" cy="190" r="9" class="diagram__commit"/>
+            <circle cx="300" cy="190" r="9" class="diagram__commit"/>
+            <circle cx="680" cy="190" r="9" class="diagram__commit"/>
+            <circle cx="420" cy="80" r="9" class="diagram__commit diagram__commit--accent"/>
+            <circle cx="600" cy="80" r="9" class="diagram__commit diagram__commit--accent"/>
+          </svg>
+        </div>
+
+        <div class="cards-grid" data-cards-for="branching"></div>
+      </div>
+
+      <div class="category-section" id="merging-rebasing" data-category="merging-rebasing">
+        <div class="category-heading" data-heading-for="merging-rebasing"></div>
+
+        <div class="diagram-wrapper diagram-wrapper--merge-rebase">
+          <div class="merge-rebase-panel">
+            <p class="merge-rebase-panel__label">Merge <span>git merge &lt;branch&gt;</span></p>
+            <svg class="diagram diagram--merge" viewBox="0 0 440 220" role="img" aria-labelledby="merge-diagram-title">
+              <title id="merge-diagram-title">Main and feature branch joining at a new merge commit</title>
+              <line x1="70" y1="170" x2="390" y2="170" class="diagram__line"/>
+              <path d="M70,170 C70,122 118,90 180,90" class="diagram__line diagram__line--accent" fill="none"/>
+              <line x1="180" y1="90" x2="290" y2="90" class="diagram__line diagram__line--accent"/>
+              <line x1="290" y1="90" x2="390" y2="170" class="diagram__line diagram__line--accent"/>
+
+              <text x="30" y="196" class="diagram__tag">main</text>
+              <text x="180" y="68" class="diagram__tag diagram__tag--accent">feature</text>
+              <text x="390" y="200" class="diagram__tag diagram__tag--center">merge commit</text>
+
+              <circle cx="70" cy="170" r="8" class="diagram__commit"/>
+              <circle cx="180" cy="170" r="8" class="diagram__commit"/>
+              <circle cx="290" cy="170" r="8" class="diagram__commit"/>
+              <circle cx="180" cy="90" r="8" class="diagram__commit diagram__commit--accent"/>
+              <circle cx="290" cy="90" r="8" class="diagram__commit diagram__commit--accent"/>
+              <circle cx="390" cy="170" r="10" class="diagram__commit diagram__commit--merge"/>
+            </svg>
+            <p class="merge-rebase-panel__note">Keeps both histories exactly as they happened, joined by one new merge commit.</p>
+          </div>
+
+          <div class="merge-rebase-panel">
+            <p class="merge-rebase-panel__label">Rebase <span>git rebase &lt;branch&gt;</span></p>
+            <svg class="diagram diagram--rebase" viewBox="0 0 440 220" role="img" aria-labelledby="rebase-diagram-title">
+              <title id="rebase-diagram-title">Feature commits replayed after main's commits in one straight line</title>
+              <path d="M50,170 C50,122 98,90 140,90" class="diagram__line diagram__line--ghost" fill="none"/>
+              <line x1="140" y1="90" x2="230" y2="90" class="diagram__line diagram__line--ghost"/>
+              <path d="M230,90 C265,90 300,150 320,170" class="diagram__line diagram__line--ghost-link" fill="none"/>
+              <line x1="50" y1="170" x2="400" y2="170" class="diagram__line diagram__line--accent"/>
+
+              <text x="15" y="196" class="diagram__tag">main</text>
+              <text x="140" y="68" class="diagram__tag diagram__tag--ghost">feature (before)</text>
+              <text x="245" y="128" class="diagram__tag diagram__tag--ghost diagram__tag--center">rebase</text>
+
+              <circle cx="140" cy="90" r="8" class="diagram__commit diagram__commit--ghost"/>
+              <circle cx="230" cy="90" r="8" class="diagram__commit diagram__commit--ghost"/>
+              <circle cx="50" cy="170" r="8" class="diagram__commit"/>
+              <circle cx="140" cy="170" r="8" class="diagram__commit"/>
+              <circle cx="230" cy="170" r="8" class="diagram__commit"/>
+              <circle cx="320" cy="170" r="8" class="diagram__commit diagram__commit--accent"/>
+              <circle cx="400" cy="170" r="8" class="diagram__commit diagram__commit--accent"/>
+            </svg>
+            <p class="merge-rebase-panel__note">Moves your commits to sit after main's, producing one straight line — no merge commit.</p>
+          </div>
+        </div>
+
+        <div class="cards-grid" data-cards-for="merging-rebasing"></div>
+      </div>
+
+      <div class="category-section" id="undoing-mistakes" data-category="undoing-mistakes">
+        <div class="category-heading" data-heading-for="undoing-mistakes"></div>
+
+        <div class="diagram-wrapper diagram-wrapper--undo">
+          <svg class="diagram diagram--undo" viewBox="0 0 1150 300" role="img" aria-labelledby="undo-diagram-title">
+            <title id="undo-diagram-title">Decision guide: which undo command fits which situation</title>
+
+            <line x1="575" y1="70" x2="135.5" y2="150" class="diagram__line"/>
+            <line x1="575" y1="70" x2="355.5" y2="150" class="diagram__line"/>
+            <line x1="575" y1="70" x2="575.5" y2="150" class="diagram__line"/>
+            <line x1="575" y1="70" x2="795.5" y2="150" class="diagram__line"/>
+            <line x1="575" y1="70" x2="1015.5" y2="150" class="diagram__line"/>
+
+            <g class="diagram__decision">
+              <rect x="475" y="15" width="200" height="55" rx="10"/>
+              <text x="575" y="38" class="diagram__node-label diagram__tag--center"><tspan x="575" dy="0">What do you need</tspan><tspan x="575" dy="18">to undo?</tspan></text>
+            </g>
+
+            <g class="diagram__leaf">
+              <rect x="33" y="150" width="205" height="130" rx="10"/>
+              <text x="135.5" y="182" class="diagram__leaf-condition diagram__tag--center"><tspan x="135.5" dy="0">Unstaged</tspan><tspan x="135.5" dy="16">changes</tspan></text>
+              <text x="135.5" y="240" class="diagram__leaf-command diagram__tag--center"><tspan x="135.5" dy="0">git restore</tspan><tspan x="135.5" dy="16">&lt;file&gt;</tspan></text>
+            </g>
+
+            <g class="diagram__leaf">
+              <rect x="253" y="150" width="205" height="130" rx="10"/>
+              <text x="355.5" y="182" class="diagram__leaf-condition diagram__tag--center"><tspan x="355.5" dy="0">Staged</tspan><tspan x="355.5" dy="16">changes</tspan></text>
+              <text x="355.5" y="240" class="diagram__leaf-command diagram__tag--center"><tspan x="355.5" dy="0">git restore</tspan><tspan x="355.5" dy="16">--staged &lt;file&gt;</tspan></text>
+            </g>
+
+            <g class="diagram__leaf">
+              <rect x="473" y="150" width="205" height="130" rx="10"/>
+              <text x="575.5" y="174" class="diagram__leaf-condition diagram__tag--center"><tspan x="575.5" dy="0">Last commit,</tspan><tspan x="575.5" dy="16">not pushed</tspan></text>
+              <text x="575.5" y="240" class="diagram__leaf-command diagram__tag--center"><tspan x="575.5" dy="0">git commit</tspan><tspan x="575.5" dy="16">--amend</tspan></text>
+            </g>
+
+            <g class="diagram__leaf diagram__leaf--safe">
+              <rect x="693" y="150" width="205" height="130" rx="10"/>
+              <text x="795.5" y="182" class="diagram__leaf-condition diagram__tag--center"><tspan x="795.5" dy="0">Already</tspan><tspan x="795.5" dy="16">pushed</tspan></text>
+              <text x="795.5" y="240" class="diagram__leaf-command diagram__tag--center"><tspan x="795.5" dy="0">git revert</tspan><tspan x="795.5" dy="16">&lt;commit&gt;</tspan></text>
+            </g>
+
+            <g class="diagram__leaf diagram__leaf--danger">
+              <rect x="913" y="150" width="205" height="130" rx="10"/>
+              <text x="1015.5" y="174" class="diagram__leaf-condition diagram__tag--center"><tspan x="1015.5" dy="0">Local only,</tspan><tspan x="1015.5" dy="16">rewrite OK</tspan></text>
+              <text x="1015.5" y="240" class="diagram__leaf-command diagram__tag--center"><tspan x="1015.5" dy="0">git reset</tspan><tspan x="1015.5" dy="16">--hard &lt;commit&gt;</tspan></text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="cards-grid" data-cards-for="undoing-mistakes"></div>
+      </div>
+
+      <div class="category-section" id="stashing" data-category="stashing">
+        <div class="category-heading" data-heading-for="stashing"></div>
+        <div class="cards-grid" data-cards-for="stashing"></div>
+      </div>
+
+      <div class="category-section" id="remotes-syncing" data-category="remotes-syncing">
+        <div class="category-heading" data-heading-for="remotes-syncing"></div>
+        <div class="cards-grid" data-cards-for="remotes-syncing"></div>
+      </div>
+
+      <div class="category-section" id="history-inspection" data-category="history-inspection">
+        <div class="category-heading" data-heading-for="history-inspection"></div>
+        <div class="cards-grid" data-cards-for="history-inspection"></div>
+      </div>
+
+      <div class="category-section" id="tags-releases" data-category="tags-releases">
+        <div class="category-heading" data-heading-for="tags-releases"></div>
+        <div class="cards-grid" data-cards-for="tags-releases"></div>
+      </div>
+
+      <div class="category-section" id="repo-clean" data-category="repo-clean">
+        <div class="category-heading" data-heading-for="repo-clean"></div>
+        <div class="cards-grid" data-cards-for="repo-clean"></div>
+      </div>
+
+      <div class="category-section" id="bonus" data-category="bonus">
+        <div class="category-heading" data-heading-for="bonus"></div>
+        <div class="cards-grid" data-cards-for="bonus"></div>
+      </div>
+
+      <p class="no-results" id="no-results" hidden>No commands match your search.</p>
+
+      <footer class="page-footer">
+        <p>Running on your own network. Edit <code>public/js/data.js</code> to add, remove, or change any command.</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
